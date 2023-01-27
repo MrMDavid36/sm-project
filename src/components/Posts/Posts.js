@@ -5,7 +5,7 @@ import Post from "./Post/Post.js";
 import useStyles from "./styles";
 
 const Posts = ({ setCurrentId }) => {
-  const posts = useSelector((state) => state.posts);
+  const posts = useSelector((state) => state.posts.posts);
   const classes = useStyles();
   return !posts?.length ? (
     <CircularProgress />

@@ -5,7 +5,7 @@ import memories from "./images/memories.png";
 import Form from "./components/Form/form.js";
 import Posts from "./components/Posts/Posts.js";
 import useStyles from "./styles";
-import { getPosts } from "./actions/posts";
+import { getPosts } from "./api/posts";
 
 const App = () => {
   const classes = useStyles();

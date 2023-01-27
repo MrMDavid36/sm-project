@@ -9,7 +9,6 @@ export const postsReducer = (postsState = [], action) => {
     case PostTypes.Update:
     case PostTypes.Like:
       return postsState.map((post) => {
-        console.log("postReducerAction", action);
         return post._id === action.payload._id ? action.payload : post;
       });
     case PostTypes.Delete:

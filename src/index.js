@@ -4,7 +4,7 @@ import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 
 import App from "./App";
-import { postsReducer } from "./reducers/posts";
+import postsReducer from "./reducers/postsSlice";
 
 const store = configureStore({
   reducer: {

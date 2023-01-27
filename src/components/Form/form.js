@@ -2,16 +2,15 @@ import React, { useState, useEffect } from "react";
 import FileBase from "react-file-base64";
 import { TextField, Button, Typography, Paper } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
-import { createPost, updatePost } from "../../actions/posts";
+import { createPost, updatePost } from "../../api/posts";
 import useStyles from "./styles";
 import { defaultFormValues } from "../../static/formConstants";
 
 const Form = ({ currentId, setCurrentId }) => {
   const [postData, setPostData] = useState(defaultFormValues);
   const post = useSelector((state) => {
-    // console.log("statePosts", state.posts);
     return currentId
-      ? state.posts.find((post) => post._id === currentId)
+      ? state.posts.posts.find((post) => post._id === currentId)
       : null;
   });
   const dispatch = useDispatch();
@@ -26,7 +25,7 @@ const Form = ({ currentId, setCurrentId }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (currentId) {
-      dispatch(updatePost(currentId, postData));
+      dispatch(updatePost({ id: currentId, newPost: postData }));
     } else {
       dispatch(createPost(postData));
     }
