@@ -6,16 +6,37 @@ import {
   Grid,
   Typography,
   Container,
+  Icon,
 } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Input from "./Input";
 import useStyles from "./AuthStyles";
+import { useGoogleLogin } from "@react-oauth/google";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { setAuth } from "../../reducers/authSlice";
+import { getUserInfo } from "../../api/user";
 
 const Auth = () => {
-  //   const state = null;
+  let navigate = useNavigate();
   const classes = useStyles();
   const [isSignup, setIsSignup] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
+  const dispatch = useDispatch();
+  const handleLogin = async (response) => {
+    try {
+      dispatch(setAuth(response));
+      dispatch(getUserInfo({ response }));
+      navigate("/");
+    } catch (error) {
+      console.log("ERROR", error);
+    }
+  };
+  const login = useGoogleLogin({
+    onSuccess: (credentialResponse) => {
+      handleLogin(credentialResponse);
+    },
+  });
 
   const alreadySignedUp = "Already have an account? Sign In";
   const notSignedUp = "Haven't signed up yet? Sign Up";
@@ -41,13 +62,11 @@ const Auth = () => {
                   label="First Name"
                   handleChange={handleChange}
                   autoFocus
-                  half
                 />
                 <Input
                   name="Last Name"
                   label="Last Name"
                   handleChange={handleChange}
-                  half
                 />
               </>
             )}
@@ -86,6 +105,17 @@ const Auth = () => {
             className={classes.submit}
           >
             {isSignup ? "Sign Up" : "Sign In"}
+          </Button>
+          <Button
+            className={classes.googleButton}
+            color="primary"
+            fullWidth
+            onClick={login}
+            // disabled={renderProps.disabled}
+            startIcon={<Icon />}
+            variant="contained"
+          >
+            Google Sign In
           </Button>
           <Grid container justifyContent="flex-end">
             <Grid item>
